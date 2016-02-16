@@ -1,0 +1,10 @@
+[package]
+name = "monetdb"
+version = "0.1.0"
+authors = ["Sherzod Mutalov <shmutalov@gmail.com>"]
+license = "MIT"
+description = "MonetDB driver written in Rust programming language"
+repository = "https://github.com/shmutalov/monetdb-rust"
+readme = "README.md"
+keywords = ["database", "sql", "monetdb"]
+
