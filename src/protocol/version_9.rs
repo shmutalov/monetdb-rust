@@ -32,7 +32,7 @@ impl IMapiProtocol for MapiProtocol9 {
         let algorithm = challenge_tokens[5].to_uppercase();
         
         // create hasher
-        let hasher: Box<Digest> = match algorithm.as_ref() {
+        let mut hasher: Box<Digest> = match algorithm.as_ref() {
             "MD5" => Box::new(Md5::new()),
             "SHA1" => Box::new(Sha1::new()),
             "SHA256" => Box::new(Sha256::new()),
@@ -41,13 +41,18 @@ impl IMapiProtocol for MapiProtocol9 {
             _ => return Err(format!("Hashing algorithm {} is not supported by this platform", algorithm))
         };
         
-        hasher.input_str(password);
-        let password_hash = hasher.result_str();
+        let mut user_name_copy = String::new();
+        let mut password_hash = String::new(); 
         
-        // if server_type == "merovingian" && language != "control" {
-        //     user_name_copy.push_str("merovingian");
-        //     password_hash.push_str("merovingian");
-        // }
+        if server_type == "merovingian" && language != "control" {
+            user_name_copy.push_str("merovingian");
+            password_hash.push_str("merovingian");
+        } else {
+            user_name_copy.push_str(user_name);
+            
+            hasher.input_str(password);
+            password_hash.push_str(hasher.result_str().as_ref());
+        }
         
         let mut found_algorithm = String::new();
         
@@ -71,7 +76,7 @@ impl IMapiProtocol for MapiProtocol9 {
         }
         
         // create hasher
-        let second_hasher: Box<Digest> = match found_algorithm.as_ref() {
+        let mut second_hasher: Box<Digest> = match found_algorithm.as_ref() {
             "MD5" => Box::new(Md5::new()),
             "SHA1" => Box::new(Sha1::new()),
             "SHA256" => Box::new(Sha256::new()),
@@ -85,7 +90,7 @@ impl IMapiProtocol for MapiProtocol9 {
         
         let final_password_hash = second_hasher.result_str();
         
-        let pwd_hash = format!("{{{0}}}{1}", found_algorithm, password_hash);
+        let pwd_hash = format!("{{{0}}}{1}", found_algorithm, final_password_hash);
         
         let endianness = if cfg!(target_endian = "big") {
                             "BIG"
@@ -100,7 +105,7 @@ impl IMapiProtocol for MapiProtocol9 {
         
         let final_hash = format!("{0}:{1}:{2}:{3}:{4}:", 
             endianness, 
-            user_name, 
+            user_name_copy, 
             pwd_hash,
             language,
             db
