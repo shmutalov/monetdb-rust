@@ -8,3 +8,6 @@ repository = "https://github.com/shmutalov/monetdb-rust"
 readme = "README.md"
 keywords = ["database", "sql", "monetdb"]
 
+[dependencies]
+rust-crypto = "*"
+

@@ -1,0 +1,11 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    // Specifies path to Racer binary if it's not in PATH
+	"rust.racerPath": "C:\\Users\\Sherzod Mutalov\\.cargo\\bin\\racer.exe",
+
+	// Specifies path to Rustfmt binary if it's not in PATH
+	"rust.rustfmtPath": "C:\\Users\\Sherzod Mutalov\\.cargo\\bin\\rustfmt.exe",
+    
+    // Specifies path to /src directory of local copy of Rust sources
+	"rust.rustLangSrcPath": "D:\\Projects\\git\\rust\\rust\\src\\"
+}
