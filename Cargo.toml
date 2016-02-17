@@ -11,3 +11,6 @@ keywords = ["database", "sql", "monetdb"]
 [dependencies]
 rust-crypto = "*"
 
+[dependencies.url]
+git = "https://github.com/servo/rust-url"
+
